@@ -42,15 +42,12 @@
     <header class="md:p-5 bg-dark text-white position-fixed w-100 mt-0">
         <div class="container">
           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-    
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="#" class="nav-link px-2 text-secondary">BSALE</a></li>
+            <ul class="nav col-12 col-md-6 col-lg-auto me-lg-auto mb-2 justify-content-center items-center">
+              <li><a href="#" class="nav-link px-2 text-white font-bold text-xl">BSALE</a></li>
             </ul>
-    
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-              <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+            <form class="col-12 col-md-6 col-lg-6 mb-3 mb-lg-0 me-lg-3">
+              <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search" id="idSearchProduct">
             </form>
-    
             <div class="text-end">
             </div>
           </div>
@@ -58,15 +55,14 @@
     </header>
     <main class="grid grid-cols-12 w-100">
       <aside class="hidden md:flex md:flex-col sidebar bg-gray-400 md:col-span-3 xl:col-span-2 p-4">
-          <a href="/" class="">
+          <a href="#" class="pointer-events-none">
             <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
             <span class="fs-3">CATEGORIAS</span>
           </a>
           <hr>
           <ul class="nav flex-column mb-auto" id="idCategories">
             <li class="">
-              <a href="cat=0" class="nav-link active text-white fw-bolder hover" aria-current="page">
-                <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+              <a href="#0" class="nav-link active text-white fw-bolder bg-gray-700 hover:bg-gray-700 itemCategory">
                 Todos
               </a>
               <hr>
@@ -75,39 +71,49 @@
           <hr>
       </aside>
       <div class="bg-info flex-shrink-0 p-4 col-span-12 md:col-span-9 xl:col-span-10 bg-white p-5 mt-5">
-        <div class="relative inline-block text-right w-100 mt-5">
-          <label class="mr-4">Filtrar por: </label>
-          <div class="relative inline-block text-right w-auto">
-            <div class="flex">
-              <button type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="idFilter" aria-expanded="true" aria-haspopup="true">
-                Recomendado
-                <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-              </button>
-            </div>
-            <div class="z-10 hidden origin-top-right absolute right-0 mt-1 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu"    aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1" id="idFilter">
-              <div class="py-1" role="none">
-                <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Recomendado</a>
-                <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Por nombre (A-Z)</a>
-                <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Por nombre (Z-A)</a>
-                <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">Por precio menor a mayor</a>
-                <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">Por precio mayor a menor</a>
+        <input class="hidden" name="category" id="idCategory"/>
+        <div class="relative inline-block text-left w-100 mt-5 space-y-2 sm:flex">
+          <div class="flex md:flex items-center w-100 sm:w-50">
+            <label class="mr-4">Filtrar por: </label>
+            <div class="dropdown relative inline-block text-right w-auto">
+                <button type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" itype="button" id="idFilterActual" data-toggle="dropdown" aria-expanded="false">
+                  Recomendado
+                  <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+              <div class="dropdown-menu z-10 hidden origin-top-right absolute right-0 mt-1 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu"    aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1" id="idFilterItems">
+                <div class="py-1" role="none">
+                  <a href="#All" class="text-gray-700 block px-4 py-2 text-sm filteritem" tabindex="-1" id="menu-item-0">Recomendado</a>
+                  <a href="#NameASC" class="text-gray-700 block px-4 py-2 text-sm filteritem" tabindex="-1" id="menu-item-0">Por nombre (A-Z)</a>
+                  <a href="#NameDESC" class="text-gray-700 block px-4 py-2 text-sm filteritem" tabindex="-1" id="menu-item-1">Por nombre (Z-A)</a>
+                  <a href="#PrecioASC" class="text-gray-700 block px-4 py-2 text-sm filteritem" tabindex="-1" id="menu-item-2">Por precio menor a mayor</a>
+                  <a href="#PrecioDESC" class="text-gray-700 block px-4 py-2 text-sm filteritem" tabindex="-1" id="menu-item-2">Por precio mayor a menor</a>
+                </div>
               </div>
             </div>
           </div>
-          <!-- <div class="relative inline-block text-right">
-            <select class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-              <option> [Selecciona] </option>
-              <option value="0"> Todo </option>
-              <option value="NameASC"> Por nombre (A-Z) </option>
-              <option value="NameDESC"> Por nombre (Z-A) </option>
-              <option value="PrecioMenor"> Por precio menor a mayor</option>
-              <option value="PrecioMayor"> Por precio menor a mayor</option>
-            </select>
-          </div> -->
+          <div class="grid w-100 sm:w-50 justify-items-end">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
-        <div class="mt-4 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-x-8" style="width: 100%; margin-top: 10em;" id="idProducts">
+        <div class="mt-4 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-x-8" style="width: 100%; margin-top: 10em;" id="idProducts">
           
         </div>
       </div>
@@ -128,8 +134,7 @@
                       console.log(cat);
                       $("#idCategories").append(`
                       <li class="nav-item">
-                        <a href="#" class="nav-link active text-white fw-bolder hover" aria-current="page">
-                          <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                        <a href="#${cat.id}" class="nav-link active text-white fw-bolder hover:bg-gray-700 itemCategory">
                           ${cat.name}
                         </a>
                       </li>
@@ -142,17 +147,10 @@
                 }
             })
         }
-        $(document).ready( function () {
-            console.log("HOLA MUNDO")
-            var api_product = "http://192.168.1.60:8090/api/product";
-            var api_category = "http://192.168.1.60:8090/api/category";
 
-            /* $.getJSON(`${api_product}/`,{},function(data){
-		        console.log(data);
-            }) */
-            listCategories(api_category);
-            
-            var icon_cart = `
+        function listProducts(api,cat,filter,page){
+
+          var icon_cart = `
               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
                 <path d="M14 36c-2.21 0-3.98 1.79-3.98 4s1.77 4 3.98 4 4-1.79 4-4-1.79-4-4-4zm-12-32v4h4l7.19 15.17-2.7 
                   4.9c-.31.58-.49 1.23-.49 1.93 0 2.21 1.79 4 4 4h24v-4h-23.15c-.28 0-.5-.22-.5-.5 0-.09.02-.17.06-.24l1.79-3.26h14.9c1.5 
@@ -160,7 +158,8 @@
                   4 3.98 4 4-1.79 4-4-1.79-4-4-4z"/><path fill="none" d="M0 0h48v48h-48z"/>
               </svg>
             `;
-            $.ajax({
+          console.log("properties: api,page,filter,cat: ",api,page,filter,cat);
+          $.ajax({
                 type: "GET",
                 url: `./products.json`,
                 success: function (data) {
@@ -170,6 +169,11 @@
                       <div class="group relative bg-gray-50 p-3">
                         <div class="w-auto min-h-80 bg-white aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
                           <img src="${pro.urlImage}" alt="${pro.name}" class="w-full h-full object-center object-contain lg:w-full lg:h-full">
+                          <div class="absolute right-8 lg:right-10 top-50 md:top-54 lg:top-60">
+                          ${
+                            pro.discount > 0 ? '<p class="text-lg font-bold text-gray-700 rounded-full bg-gray-200 w-12 pl-1 pr-2 py-2 text-center">'+ pro.discount+'%</p>' : ''
+                          }
+                          </div>
                         </div>
                         <div class="mt-4 flex justify-between">
                           <div>
@@ -179,12 +183,11 @@
                                 ${pro.name}
                               </a>
                             </h3>
-                            <p class="mt-1 text-sm font-medium text-black">$${pro.price}</p>
+                            <p class="mt-1 text-xl font-medium text-black">$${pro.price}</p>
                           </div>
-                          ${
-                            pro.discount > 0 ? '<p class="text-sm font-bold text-red-900">'+ pro.discount+'%</p>' : ''
-                          }
-                          
+                          <div class="block text-center">
+                            <p class="text-sm font-bold text-red-900">${icon_cart}</p>
+                          </div>
                         </div>
                       </div>
                       `);
@@ -194,6 +197,54 @@
                     console.log("Hubo un error");
                 }
             })
+        }
+        $(document).on("click",".itemCategory",(function(){
+            var element = $(this);
+            var attr_val=element.attr('href').replace("#","");
+            var e_class = element.attr("class");
+            $(".itemCategory").attr("class", e_class);
+            element.attr("class",e_class+" bg-gray-700");
+            $("#idCategory").val(attr_val);
+            $("#idFilterActual").text("Recomendado");
+            var api_product = "http://192.168.1.60:8090/api/product";
+            listProducts(api_product,attr_val,'All',0);
+        }));
+
+        $(document).ready( function () {
+            console.log("HOLA MUNDO")
+            var api_product = "http://192.168.1.60:8090/api/product";
+            var api_category = "http://192.168.1.60:8090/api/category/";
+
+            /* $.getJSON(`${api_product}/`,{},function(data){
+		        console.log(data);
+            }) */
+            listCategories(api_category);
+            listProducts(api_product,0,'All',0);
+
+           
+
+            $(".filteritem").click(function(){
+              console.log("hola");
+              var element = $(this);
+              var attr_val=$(this).attr('href').replace("#","");
+              var cat_val = $("#idCategory").val();
+              $("#idFilterActual").text(element.text());
+              console.log("element.href();",attr_val);
+              listProducts(api_product,cat_val,attr_val,0);
+            })
+
+            $("#idSearchProduct").keyup(function(e){
+              console.log(e.target.value);
+            });
+
+
+            
+
+            /* $("#idFilterActual").click(()=>{
+              console.log("hola");
+              $("#idFilterItems").css("display","flex");
+            }); */
+            
         })
 
     </script>
