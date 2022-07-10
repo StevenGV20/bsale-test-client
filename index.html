@@ -157,6 +157,11 @@
         "border hover:bg-gray-300 py-2 px-3 xl:px-4 text-sm text-gray-900";
       const css_categori_no_active =
         "nav-link active text-white fw-bolder hover:bg-gray-700 uppercase itemCategory";
+      
+      function errorImage(e) {
+        console.log(e);
+        e.src = './img/image-not-found.png'
+      }
       function listCategories(api) {
         $.ajax({
           type: "GET",
@@ -194,9 +199,7 @@
           $("#idProducts").append(`
               <div class="group relative bg-gray-50 p-3">
               <div class="w-auto min-h-80 bg-white aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                  <img src="${pro.urlImage}" alt="${
-            pro.name
-          }" class="w-full h-full object-center object-contain lg:w-full lg:h-full">
+                  <img src="${pro.urlImage}" onerror="errorImage(this)" class="w-full h-full object-center object-contain lg:w-full lg:h-full">
                   <div class="absolute right-8 lg:right-10 top-50 md:top-54 lg:top-60">
                   ${
                     pro.discount > 0
@@ -228,12 +231,14 @@
       }
 
       function loadPagination(pages) {
-        for (var i = 1; i < pages + 1; i++) {
-          $(".idPaginacion").append(
-            `<li class='page-item'><button class='${
-              i == 1 ? css_pag_active : css_pag_no_active
-            }' id='idNumPage'>${i}</button></li>`
-          );
+        if(pages > 1){
+          for (var i = 1; i < pages + 1; i++) {
+            $(".idPaginacion").append(
+              `<li class='page-item'><button class='${
+                i == 1 ? css_pag_active : css_pag_no_active
+              }' id='idNumPage'>${i}</button></li>`
+            );
+          }
         }
       }
 
