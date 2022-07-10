@@ -2,8 +2,30 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
+const express = require("express");
+const cors = require("cors");
+const routerApi = require("./routes");
+
+const app = express();
+
 const host = "localhost";
-const port = process.env.port || 5500;
+const port = process.env.PORT || 5500;
+
+const whitelist = [
+  "http://localhost:8090",
+  "https://bsale-test-server.herokuapp.com/",
+];
+const options = {
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("no permitido"));
+    }
+  },
+};
+
+app.use(cors(options));
 
 const server = http.createServer((req, res) => {
   console.log("Request for " + req.url + " by method " + req.method);
