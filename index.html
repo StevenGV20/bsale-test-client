@@ -121,17 +121,6 @@
           <div class="grid w-100 sm:w-50 justify-items-end">
             <nav aria-label="Page navigation example">
               <ul class="pagination idPaginacion">
-                <!-- <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li> -->
               </ul>
             </nav>
           </div>
@@ -160,6 +149,8 @@
     
     <script type="text/javascript">
         const remote_host = "https://bsale-test-server.herokuapp.com";
+        const css_pag_active="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 border-2 py-2 px-3 xl:px-4 text-sm";
+        const css_pag_no_active="border hover:bg-gray-300 py-2 px-3 xl:px-4 text-sm text-gray-900";
         function listCategories(api){
           $.ajax({
                 type: "GET",
@@ -228,7 +219,7 @@
 
         function loadPagination(pages){
           for(var i = 1;i<pages+1;i++){
-            $(".idPaginacion").append(" <li class='page-item'><button class='border hover:bg-gray-300 py-2 px-3 xl:px-4 text-sm text-gray-900' id='idNumPage'>"+i+"</button></li>");
+            $(".idPaginacion").append( `<li class='page-item'><button class='${i==1 ? css_pag_active : css_pag_no_active}' id='idNumPage'>${i}</button></li>`);
           };
         }
         function listProducts(api,cat,filter,page,loadPages){
@@ -294,13 +285,13 @@
         }));
 
         $(document).on("click","#idNumPage",(function(){
-          $(".idPaginacion li button").attr("class","border hover:bg-gray-300 py-2 px-3 xl:px-4 text-sm text-gray-900");
+          $(".idPaginacion li button").attr("class",css_pag_no_active);
           
           const page=parseInt($(this).text())-1;
           $(".idPaginacion > li > button").map((index,btn) => {
             console.log();
             if($(btn).text() == page+1){
-              $(btn).attr("class","z-10 bg-indigo-50 border-indigo-500 text-indigo-600 border-2 py-2 px-3 xl:px-4 text-sm");
+              $(btn).attr("class",css_pag_active);
             }
           })
           const api_product = `${remote_host}/api/product/filter`;
