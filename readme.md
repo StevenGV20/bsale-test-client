@@ -10,13 +10,18 @@ Clonar el repositorio con el siguiente comando:
 
 git clone https://github.com/StevenGV20/bsale-test-client.git
 
+Para ejecutar el proyecto, ejecutar el siguiente comando:
+
+node index.js
+
+### Pre-requisitos 📋
+
+Para el desarrollo, solo necesitará Node.js instalado en su entorno. Se puede usar cualquier editor de codigo para ver el proyecto.
+Es recomendable usar Visual Studio Code.
+
 ### Instalación 🔧
 
-No es necesario una instalacion previa.
-
-## Ejecutando las pruebas ⚙️
-
-Se puede ingresar desde el siguiente enlace. Esta desplegado en Heroku, asi que hay que
+[Node](http://nodejs.org/) es muy fácil de instalar. Se puede descargar desde su [sitio web oficial](https://nodejs.org/en/).
 
 ## Despliegue 📦
 
