@@ -36,6 +36,12 @@
   .bd-placeholder-img{
     height: 100%;
   }
+  .loader{
+    top: 50%;
+    left: 50%;
+    right: 50%;
+    bottom: 50%;
+  }
   
 </style>
 <body class="d-block">
@@ -71,7 +77,7 @@
           <hr>
       </aside>
       <div class="bg-info flex-shrink-0 p-4 col-span-12 md:col-span-9 xl:col-span-10 bg-white p-5 mt-5">
-        <input class="hidden" name="category" id="idCategory"/>
+        <input class="hidden" name="category" id="idCategory" value="0"/>
         <div class="relative inline-block text-left w-100 mt-5 space-y-2 sm:flex">
           <div class="flex flex-col space-y-2 w-100 sm:w-50">
             <div class="flex md:hidden items-center w-100 sm:w-50">
@@ -104,35 +110,45 @@
                     <a href="#All" class="text-gray-700 block px-4 py-2 text-sm filteritem" tabindex="-1" id="menu-item-0">Recomendado</a>
                     <a href="#NameASC" class="text-gray-700 block px-4 py-2 text-sm filteritem" tabindex="-1" id="menu-item-0">Por nombre (A-Z)</a>
                     <a href="#NameDESC" class="text-gray-700 block px-4 py-2 text-sm filteritem" tabindex="-1" id="menu-item-1">Por nombre (Z-A)</a>
-                    <a href="#PrecioASC" class="text-gray-700 block px-4 py-2 text-sm filteritem" tabindex="-1" id="menu-item-2">Por precio menor a mayor</a>
-                    <a href="#PrecioDESC" class="text-gray-700 block px-4 py-2 text-sm filteritem" tabindex="-1" id="menu-item-2">Por precio mayor a menor</a>
+                    <a href="#PriceASC" class="text-gray-700 block px-4 py-2 text-sm filteritem" tabindex="-1" id="menu-item-2">Por precio menor a mayor</a>
+                    <a href="#PriceDESC" class="text-gray-700 block px-4 py-2 text-sm filteritem" tabindex="-1" id="menu-item-2">Por precio mayor a menor</a>
                   </div>
                 </div>
+                <input value="All" name="filteractual" id="filterValue" class="hidden"/>
               </div>
             </div>
           </div>
           <div class="grid w-100 sm:w-50 justify-items-end">
             <nav aria-label="Page navigation example">
-              <ul class="pagination">
-                <li class="page-item">
+              <ul class="pagination idPaginacion">
+                <!-- <li class="page-item">
                   <a class="page-link" href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                
                 <li class="page-item">
                   <a class="page-link" href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
-                </li>
+                </li> -->
               </ul>
             </nav>
           </div>
         </div>
-        <div class="mt-4 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-x-8" style="width: 100%; margin-top: 10em;" id="idProducts">
+        <div class="h-75" id="idSpinner">
+          <div class="spinner-border text-primary relative mb-4 inset-y-1/2 inset-x-1/2" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        <div class="mt-4 grid grid-cols-1 gap-y-10 gap-x-6 mb-4 sm:grid-cols-2 xl:grid-cols-4 xl:gap-x-8" style="width: 100%; margin-top: 10em;" id="idProducts">
           
+        </div>
+        <div class="grid w-100 sm:w-50 justify-items-end">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination idPaginacion">
+            </ul>
+          </nav>
         </div>
       </div>
     </main>
@@ -143,23 +159,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
     
     <script type="text/javascript">
-      var remote_host = "https://bsale-test-server.herokuapp.com";
+        const remote_host = "https://bsale-test-server.herokuapp.com";
         function listCategories(api){
           $.ajax({
                 type: "GET",
                 url: api,
                 success: function (data) {
                     $.each(data,(index,cat) => {
-                      console.log(cat);
                       $("#idCategories").append(`
                       <li class="nav-item">
-                        <a href="#${cat.id}" class="nav-link active text-white fw-bolder hover:bg-gray-700 uppercase itemCategory">
+                        <a href="#${cat.idcategory}" class="nav-link active text-white fw-bolder hover:bg-gray-700 uppercase itemCategory">
                           ${cat.name}
                         </a>
                       </li>
                       `);
                       $("#idCategoriesMobile").append(`
-                      <a href="#${cat.id}" class="text-gray-700 block px-4 py-2 text-sm capitalize itemCategory" tabindex="-1">${cat.name}</a>
+                      <a href="#${cat.idcategory}" class="text-gray-700 block px-4 py-2 text-sm capitalize itemCategory" tabindex="-1">${cat.name}</a>
                       `)
                     })
                     
@@ -170,7 +185,7 @@
             })
         }
 
-        function loadProducts(pro){
+        function loadProducts(data){
           var icon_cart = `
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
               <path d="M14 36c-2.21 0-3.98 1.79-3.98 4s1.77 4 3.98 4 4-1.79 4-4-1.79-4-4-4zm-12-32v4h4l7.19 15.17-2.7 
@@ -179,98 +194,144 @@
                 4 3.98 4 4-1.79 4-4-1.79-4-4-4z"/><path fill="none" d="M0 0h48v48h-48z"/>
             </svg>
           `;
-          $("#idProducts").append(`
-          <div class="group relative bg-gray-50 p-3">
-            <div class="w-auto min-h-80 bg-white aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-              <img src="${pro.urlImage}" alt="${pro.name}" class="w-full h-full object-center object-contain lg:w-full lg:h-full">
-              <div class="absolute right-8 lg:right-10 top-50 md:top-54 lg:top-60">
-              ${
-                pro.discount > 0 ? '<p class="text-lg font-bold text-gray-700 rounded-full bg-gray-200 w-12 pl-1 pr-2 py-2 text-center">'+ pro.discount+'%</p>' : ''
-              }
+          data.map((pro)=>{
+            $("#idProducts").append(`
+              <div class="group relative bg-gray-50 p-3">
+                <div class="w-auto min-h-80 bg-white aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                  <img src="${pro.urlImage}" alt="${pro.name}" class="w-full h-full object-center object-contain lg:w-full lg:h-full">
+                  <div class="absolute right-8 lg:right-10 top-50 md:top-54 lg:top-60">
+                  ${
+                    pro.discount > 0 ? '<p class="text-lg font-bold text-gray-700 rounded-full bg-gray-200 w-12 pl-1 pr-2 py-2 text-center">'+ pro.discount+'%</p>' : ''
+                  }
+                  </div>
+                </div>
+                <div class="mt-4 flex justify-between">
+                  <div>
+                    <h3 class="text-sm text-gray-700">
+                      <a href="#">
+                        <span aria-hidden="true" class="absolute inset-0"></span>
+                        ${pro.name}
+                      </a>
+                    </h3>
+                    <p class="mt-1 text-xl font-medium text-black">$${pro.price}</p>
+                  </div>
+                  <div class="block text-center">
+                    <p class="text-sm font-bold text-red-900">${icon_cart}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="mt-4 flex justify-between">
-              <div>
-                <h3 class="text-sm text-gray-700">
-                  <a href="#">
-                    <span aria-hidden="true" class="absolute inset-0"></span>
-                    ${pro.name}
-                  </a>
-                </h3>
-                <p class="mt-1 text-xl font-medium text-black">$${pro.price}</p>
-              </div>
-              <div class="block text-center">
-                <p class="text-sm font-bold text-red-900">${icon_cart}</p>
-              </div>
-            </div>
-          </div>
-          `);
+            `);
+            $("#idSpinner").css("display","none");
+          })
+          
         }
 
-        function listProducts(api,cat,filter,page){
-          console.log("properties: api,page,filter,cat: ",api,page,filter,cat);
-          
+        function loadPagination(pages){
+          for(var i = 1;i<pages+1;i++){
+            $(".idPaginacion").append(" <li class='page-item'><button class='border hover:bg-gray-300 py-2 px-3 xl:px-4 text-sm text-gray-900' id='idNumPage'>"+i+"</button></li>");
+          };
+        }
+        function listProducts(api,cat,filter,page,loadPages){
+          console.log("properties: api,page,filter,cat: ",`${api}?page=${page}&cat=${cat}&type=${filter}`);
+          $("#idProducts").empty();
+          $("#idSpinner").css("display","flex");
+          $.ajax({
+            type: "GET",
+            url: `${api}?cat=${cat}&page=${page}&type=${filter}`,
+            success: function (data) {
+              loadProducts(data.content);
+              if(data.length < 1){
+                $("#idSpinner").css("display","none");
+                console.log("Hubo un error");
+              }
+              if(loadPages)
+                loadPagination(data.totalPages);
+            },
+            error: (error) =>{
+              console.log("Hubo un error");
+              $("#idSpinner").css("display","none");
+            }
+          });
+        }
+
+        function listProductsByName(api,name){
+          $("#idProducts").empty();
+          $(".idPaginacion").empty();
+          $("#idSpinner").css("display","flex");
           $.ajax({
                 type: "GET",
-                url: `${api}?page=${page}&cat=${cat}&type=${filter}`,
+                url: `${api}?name=${name}`,
                 success: function (data) {
-                    console.log(data);
-                    data.content.map((pro)=>{
-                      loadProducts(pro);
-                    })
+                  loadProducts(data);
+                  
+                  if(data.length < 1){
+                    $("#idSpinner").css("display","none");
+                    console.log("Hubo un error");
+                  }
                 },
                 error: (error) =>{
-                    console.log("Hubo un error");
+                  console.log("Hubo un error");
+                  $("#idSpinner").css("display","none");
                 }
             })
         }
+
         $(document).on("click",".itemCategory",(function(){
-            var element = $(this);
-            var attr_val=element.attr('href').replace("#","");
+          const element = $(this);
+          const idCat = element.attr('href').replace("#","");
 
-            var e_class = element.attr("class");
-            $(".itemCategory").attr("class", e_class);
-            element.attr("class",e_class+" bg-gray-700");
+          const e_class = element.attr("class");
+          $(".itemCategory").attr("class", e_class);
+          element.attr("class",e_class+" bg-gray-700");
 
-            $("#idCategory").val(attr_val);
-            $("#idCatActual").text(element.text());
-            $("#idFilterActual").text("Recomendado");
+          $("#idCategory").val(idCat);
+          $("#idCatActual").text(element.text());
+          $("#idFilterActual").text("Recomendado");
 
-            var api_product = `${remote_host}/api/product/filter`;
-            listProducts(api_product,attr_val,'All',0);
+          $(".idPaginacion").empty();
+          const api_product = `${remote_host}/api/product/filter`;
+          listProducts(api_product,idCat,'All',0,true);
+        }));
+
+        $(document).on("click","#idNumPage",(function(){
+          $(".idPaginacion li button").attr("class","border hover:bg-gray-300 py-2 px-3 xl:px-4 text-sm text-gray-900");
+          
+          const page=parseInt($(this).text())-1;
+          $(".idPaginacion > li > button").map((index,btn) => {
+            console.log();
+            if($(btn).text() == page+1){
+              $(btn).attr("class","z-10 bg-indigo-50 border-indigo-500 text-indigo-600 border-2 py-2 px-3 xl:px-4 text-sm");
+            }
+          })
+          const api_product = `${remote_host}/api/product/filter`;
+          listProducts(api_product,$("#idCategory").val(),$("#filterValue").text(),page,false);
         }));
 
         $(document).ready( function () {
-            console.log("HOLA MUNDO")
-            var api_category = `${remote_host}/api/category/`;
-            var api_product =  `${remote_host}/api/product/listAll`;
-            listCategories(api_category);
-            listProducts(api_product,0,'All',0);
 
-           
+            const api_category = `${remote_host}/api/category/`;
+            const api_product =  `${remote_host}/api/product/listAll`;
+
+            listCategories(api_category);
+            listProducts(api_product,0,'All',0,true);
 
             $(".filteritem").click(function(){
-              console.log("hola");
-              var element = $(this);
+              const element = $(this);
               var attr_val=$(this).attr('href').replace("#","");
               var cat_val = $("#idCategory").val();
-              $("#idFilterActual").text(element.text());
-              console.log("element.href();",attr_val);
-              listProducts(api_product,cat_val,attr_val,0);
-            })
 
-            $("#idSearchProduct").keyup(function(e){
-              console.log(e.target.value);
+              $("#idFilterActual").text(element.text());
+              $("#filterValue").val(attr_val);
+              $(".idPaginacion").empty();
+              
+              const api = `${remote_host}/api/product/filter`;
+              listProducts(api,cat_val,attr_val,0,true);
             });
 
-
-            
-
-            /* $("#idFilterActual").click(()=>{
-              console.log("hola");
-              $("#idFilterItems").css("display","flex");
-            }); */
-            
+            $("#idSearchProduct").keyup(function(e){
+              const api = `${remote_host}/api/product/listByName`;
+              listProductsByName(api,e.target.value);
+            });
         })
 
     </script>
