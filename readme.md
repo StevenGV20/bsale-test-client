@@ -10,23 +10,14 @@ Clonar el repositorio con el siguiente comando:
 
 git clone https://github.com/StevenGV20/bsale-test-client.git
 
-Para ejecutar el proyecto, ejecutar el siguiente comando:
-
-node index.js
-
-### Pre-requisitos 📋
-
-Para el desarrollo, solo necesitará Node.js instalado en su entorno. Se puede usar cualquier editor de codigo para ver el proyecto.
-Es recomendable usar Visual Studio Code.
-
 ### Instalación 🔧
 
-[Node](http://nodejs.org/) es muy fácil de instalar. Se puede descargar desde su [sitio web oficial](https://nodejs.org/en/).
+No require instalar algun programa extra.
 
 ## Despliegue 📦
 
 La aplicacion esta desplegada en heroku
-Se puede acceder a la aplicacion desde el siguiente enlace: https://bsale-test-sgv-client.herokuapp.com/
+Se puede acceder a la aplicacion desde el siguiente enlace: https://bsale-test-svg-client.herokuapp.com/
 
 ## Construido con 🛠️
 
@@ -41,3 +32,7 @@ Se puede acceder a la aplicacion desde el siguiente enlace: https://bsale-test-s
 ## JavaScript
 
 - Se ha utilizado JQuery y Ajax para las consultas y procesamientos de datos.
+
+## PHP
+
+- Solo uzado para levantar la aplicacion en Heroku.

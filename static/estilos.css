@@ -1,0 +1,33 @@
+header {
+  height: auto;
+  z-index: 4;
+}
+main {
+  min-height: 100vh;
+}
+.nav-item {
+  font-size: 18px;
+  text-transform: uppercase;
+}
+.nav-item:hover {
+  background-color: gray;
+}
+.nav-item:active {
+  background-color: gray;
+}
+.sidebar {
+  height: auto;
+  margin-top: 5em;
+}
+.card {
+  height: 100%;
+}
+.bd-placeholder-img {
+  height: 100%;
+}
+.loader {
+  top: 50%;
+  left: 50%;
+  right: 50%;
+  bottom: 50%;
+}
